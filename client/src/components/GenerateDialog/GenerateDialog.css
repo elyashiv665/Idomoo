@@ -1,0 +1,16 @@
+.container{
+    width: 630px;
+    height: 450px;
+    padding: 15px;
+    margin: auto;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 5px rgb(138, 126, 126);
+    background-color: white;
+}
+
+.title {
+    font-size: 20px;
+    margin-bottom: 40px;
+}
