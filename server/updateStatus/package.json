@@ -1,0 +1,18 @@
+{
+    "name": "main",
+    "version": "1.0.0",
+    "description": "",
+    "main": "updateStatus.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node updateStatus.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "amqplib": "^0.10.3",
+        "mongoose": "^7.3.1"
+    }
+}
