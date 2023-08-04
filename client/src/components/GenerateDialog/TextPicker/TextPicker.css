@@ -1,0 +1,12 @@
+.TextSaveButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
+.textPickerContainer {
+    align-self: flex-start;
+    margin-left: 64px;
+}
