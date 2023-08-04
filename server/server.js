@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.json());
 
 app.post('/video', async (req, res) => {
-  const { color, images, email, firstName, lastName, quality, resolution } = req.body;
+  const { width, height, thumbnail, data} = req.body;
   try {
     // TODO: add call to Idomoo 
     res.status(201).json({});
