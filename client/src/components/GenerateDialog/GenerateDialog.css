@@ -1,4 +1,4 @@
-.container{
+.GenerateDialogContainer{
     width: 630px;
     height: 450px;
     padding: 15px;
@@ -8,9 +8,23 @@
     flex-direction: column;
     box-shadow: 2px 2px 5px rgb(138, 126, 126);
     background-color: white;
+    border-radius: 6px;
 }
 
-.title {
+.GenerateDialogTitle {
     font-size: 20px;
     margin-bottom: 40px;
+}
+
+.row {
+    display: flex;
+    margin-left: 32px;
+    justify-content: center;
+}
+
+.colorBlock {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    margin-left: 32px;
 }
