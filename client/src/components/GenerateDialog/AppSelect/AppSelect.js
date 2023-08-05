@@ -3,24 +3,22 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import './AppSelect.css';
 
-export default function AppSelect({options, selectedOption, setValue, label}) {
+export default function AppSelect({options, selectedOption, setValue, label, type = 'object'}) {
 
   const handleChange = (event) => {
-    setValue(options.find(option => option.value === event.target.value));
+    setValue(type === 'object' ? options.find(option => option.value === event.target.value): event.target.value);
   };
-
+  type !== 'object' && console.log('value', type === 'object' ? selectedOption?.value : selectedOption);
   return (
-    <div className={'AppSecletContainer'}>
+    <div>
       <FormControl sx={{maxWidth: "200px"}}>
         <InputLabel>{label}</InputLabel>
         <Select
-          value={selectedOption?.value}
-          // label={selectedOption?.label}
+          value={type === 'object' ? selectedOption?.value : selectedOption}
           onChange={handleChange}
         >
-          {options.map(option => <MenuItem value={option.value}>{option?.label}</MenuItem>)}
+          {options.map(option => <MenuItem value={type === 'object' ? option.value: option}>{type === 'object' ? option.label: option}</MenuItem>)}
         </Select>
       </FormControl>
     </div>)

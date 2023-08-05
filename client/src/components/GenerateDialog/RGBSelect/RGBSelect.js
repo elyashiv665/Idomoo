@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { SketchPicker } from 'react-color';
 import './RGBSelect.css';
 
-function RGBSelect ({color, setColor}){
+function RGBSelect ({color, setColor, setIsMedia1Color}){
   const [open, setOpen] = useState(false);
 
   const handleColorChange = (newColor) => {
     setColor(newColor.hex);
+    setIsMedia1Color(true);
   };
 
   return (

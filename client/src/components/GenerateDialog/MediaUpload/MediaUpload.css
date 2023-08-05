@@ -1,0 +1,8 @@
+.uploadButton{
+    width: 200px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+}
