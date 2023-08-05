@@ -74,10 +74,10 @@ const generateBody = (params) =>{
     const output = filterJsonKeys(outputObj, format==='GIF' ? 'gif':'video');
     const reqData = Object.entries(data).map((entry, index) => {
         const [key, val] = entry; 
-        return  { 'key': key, 'val': val};
+        return  {key,val};
     })
     return {
-        storyboard_id: process.env.STORYBOARD_ID,
+        storyboard_id: parseInt(process.env.STORYBOARD_ID),
         output,
         data: reqData
     };
@@ -87,11 +87,10 @@ const generateBody = (params) =>{
 export async function generateVideo(params) {
     try {
         const body = generateBody(params);
-        console.log('body', body);
-
-        console.log('params', params);
+        console.log('body', JSON.stringify(body));
         const response = await callIdomoo('storyboards/generate', body, 'post');
-       
+        const {output, check_status_url} = response.data
+        return response.data;
     } catch (error) {
         throw new Error(`Error generateVideo: ${error.message}`);
     }
@@ -103,14 +102,13 @@ async function callIdomoo( url, body={}, method){
     try{
         const token = await getToken();
         const headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         };
         const options = {
             method: method,
             url: `${process.env.IDOMOOURL}/${url}`,
             headers,
-            body
+            data: body
           };
         const response = await axios(options);
         return response;

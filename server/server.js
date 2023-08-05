@@ -14,8 +14,9 @@ app.post('/video', async (req, res) => {
     res.status(400).json({ error: 'bad params' });
   }
   try {
-    generateVideo(req.body).then(req => {console.log('post', req);});
-    res.status(201).json({});
+    const resData = await generateVideo(req.body);
+
+    res.status(202).json(resData);
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }

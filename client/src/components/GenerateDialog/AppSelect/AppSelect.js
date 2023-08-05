@@ -9,6 +9,7 @@ export default function AppSelect({options, selectedOption, setValue, label, typ
   const handleChange = (event) => {
     setValue(type === 'object' ? options.find(option => option.value === event.target.value): event.target.value);
   };
+
   return (
     <div>
       <FormControl sx={{maxWidth: "200px"}}>

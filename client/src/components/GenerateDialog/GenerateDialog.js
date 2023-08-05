@@ -33,7 +33,7 @@ const GenerateDialog = ({handleGenerate}) => {
   const [videoQuality, setVideoQuality] = useState(videoQualities[0]);
   const [gifQuality, setGifQuality] = useState(GIFQualities[0]);
   const [format, setFormat] = useState(formats[0]);
-  const [media1, setMedia1] = useState('#000000');
+  const [media1, setMedia1] = useState('rgb(0, 0, 0)');
   const[isMedia1Color, setIsMedia1Color] = useState(true);
   const [fps, setFps] = useState(fpsOptions[15]);
   const titleText = 'Enter the details below in order to generate your video';
