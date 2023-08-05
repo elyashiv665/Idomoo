@@ -27,7 +27,7 @@ const resolutions = [{
   }]
 
 
-const GenerateDialog = ({handleGenerate}) => {
+const GenerateDialog = ({handleGenerate, setParantFormat}) => {
   const [text, setText] = useState('');
   const [resolution, setResolution] = useState(resolutions[0]);
   const [videoQuality, setVideoQuality] = useState(videoQualities[0]);
@@ -64,7 +64,7 @@ const GenerateDialog = ({handleGenerate}) => {
             {format.value === "gif" &&  <AppSelect options={fpsOptions} selectedOption={fps} setValue={setFps} label={"FPS"} type={'array'}/>}
           </div>
         </div>
-        <button className='generateDialogButton' onClick={() => handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,fps})}>GENERATE</button>
+        <button className='generateDialogButton' onClick={() => {setParantFormat(format.value);handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,fps})}}>GENERATE</button>
 
 
       </div>

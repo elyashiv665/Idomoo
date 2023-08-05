@@ -15,7 +15,6 @@ app.post('/video', async (req, res) => {
   }
   try {
     const resData = await generateVideo(req.body);
-
     res.status(202).json(resData);
   } catch (err) {
     console.error(err.message);
@@ -27,7 +26,7 @@ app.post('/video', async (req, res) => {
 app.get('/videoStatus', async (req, res) => {
   try {
     const url = req.query.url;
-
+    console.log('url', url);
     const updateData = await callIdomoo(url, undefined, 'get');
     const status = updateData.data.status;
     res.status(200).json(status);
@@ -41,10 +40,9 @@ app.get('/videoStatus', async (req, res) => {
 app.get('/videoContent', async (req, res) => {
   try {
     const url = req.query.url;
-
     const videoContent = await callIdomoo(url, undefined, 'get');
     const video = videoContent.data;
-    res.status(200).send(video);
+    res.status(200).json(video);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal server error' });

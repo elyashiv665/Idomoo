@@ -87,7 +87,7 @@ const generateBody = (params) =>{
 export async function generateVideo(params) {
     try {
         const body = generateBody(params);
-        const response = callIdomoo(`${process.env.IDOMOOURL}/storyboards/generate`, body, 'post');
+        const response = await callIdomoo(`${process.env.IDOMOOURL}/storyboards/generate`, body, 'post');
         return response.data;
     } catch (error) {
         throw new Error(`Error generateVideo: ${error.message}`);
@@ -99,7 +99,6 @@ export async function generateVideo(params) {
 
 export async function callIdomoo( url, body, method){
     try{
-        
         const token = await getToken();
         const headers = {
             'Authorization': `Bearer ${token}`

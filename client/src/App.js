@@ -1,41 +1,38 @@
 import './App.css';
 import GenerateDialog from './components/GenerateDialog/GenerateDialog';
-function handleGenerate(params) {
-  const {text,resolution, videoQuality,gifQuality,format,media1,fps} = params;
-  const apiUrl = '/video';
-  const requestBody = {
-    data: {Text1: text, Media1: media1},
-    resolutionHeight: resolution.value,
-    quality: format.value === 'gif' ? gifQuality : videoQuality.value,
-    format: format.value,
-    fps
-  };
-
-  fetch(apiUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      // Handle the response data here
-      console.log('Response:', data);
-    })
-    .catch((error) => {
-      // Handle any errors that occurred during the fetch
-      console.error('Error:', error);
-    });
-}
+import {useState, useMemo} from 'react';
+import ErrorComponent from './components/ErrorComponent/ErrorComponent';
+import Loader from './components/Loader/Loader';
+import Player from './components/Player/Player';
+import  {onBack, handleGenerate} from './utils/tools'
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [video, setVideo] = useState(false);
+  const [format, setFormat] = useState();
+  const [generateRes, setGenerateRes] = useState({});
+  const videoUrl = generateRes?.output?.[format === 'GIF' ? 'gif':'video'][0].links.url;
+  const handleGenerateClick = (data) => {
+    handleGenerate({...data,setIsError,setError, setIsLoading, setIsSuccess, setGenerateRes})
+  }
+  const content = useMemo(() => {
+    return <div>
+       {isLoading && Object.keys(generateRes) && <Loader isAvailableurl={generateRes.check_status_url} videoUrl={videoUrl} setVideo={setVideo} video={video} setIsError={setIsError} setError={setError} setIsLoading={setIsLoading} setIsSuccess={setIsSuccess}/>}
+      {isError && <ErrorComponent error={error}/>}
+      {isSuccess && <Player data={video}/>}
+      {!isLoading && !isError && !isSuccess && <GenerateDialog setParantFormat={setFormat} handleGenerate={(data) => {handleGenerateClick(data)}}/>}
+    </div>
+  }, [isError, isLoading, isSuccess, generateRes])
+
   return (
     <div className="App">
       <header className="App-header">
         Idomoo home assignment
       </header>
-      <GenerateDialog handleGenerate={handleGenerate}/>
+      {content}
       <div className='end'/>
     </div>
   );
