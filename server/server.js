@@ -1,39 +1,25 @@
 import express from 'express';
-import getToken from './utils/IdomooWrapper.js'
+import {generateVideo} from './utils/IdomooWrapper.js'
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 const port = 3000;
 
 app.use(express.json());
 
 app.post('/video', async (req, res) => {
-  const {params,resolutionHeight,quality,outpuyFormat,fps} = req.body;
-  console.log('params', params);
-  console.log('resolutionHeight', resolutionHeight);
-  console.log('quality', quality);
-  console.log('outpuyFormat', outpuyFormat);
-  console.log('fps', fps);
-
+  const {data,resolutionHeight,quality,format,fps} = req.body;
+  if(data?.Text1 ==='undefined' || data?.Media1==='undefined' || !fps || !resolutionHeight || !quality || !format){
+    res.status(400).json({ error: 'bad params' });
+  }
   try {
-    // TODO: add call to Idomoo 
+    generateVideo(req.body).then(req => {console.log('post', req);});
     res.status(201).json({});
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-app.get('/video', async (req, res) => {
-  try {
-    // TODO: add call to Idomoo 
-    res.json({});
-  } catch (err) {
-    console.error('get video failed', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

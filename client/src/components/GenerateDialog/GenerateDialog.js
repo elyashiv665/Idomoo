@@ -5,7 +5,7 @@ import RGBSelect from './RGBSelect/RGBSelect'
 import TextPicker from './TextPicker/TextPicker'
 import AppSelect from './AppSelect/AppSelect';
 
-const formats = [{value: 'HLS', label: 'HLS'}, {value: 'MP4', label: 'MP4'},{value: 'GIF', label: 'GIF'}];
+const formats = [{label: "HLS", value:"hls"}, {label: "MP4", value: "mp4"}, {label: "GIF",value:'gif'}];
 const videoQualities = [{value: 23, label:'BEST'}, {value:26 ,label: 'BETTER'},{value: 29, label: 'GOOD'}];
 const GIFQualities = ['16', '31','64','128','256',]
 const fpsOptions = Array.from({length: 30}, (_, i) => i + 1)
@@ -38,7 +38,6 @@ const GenerateDialog = ({handleGenerate}) => {
   const [fps, setFps] = useState(fpsOptions[15]);
   const titleText = 'Enter the details below in order to generate your video';
 
-  console.log(typeof(media1));
   return (
       <div className='GenerateDialogContainer'>
         <div className='GenerateDialogTitle'>{titleText}</div>
@@ -56,13 +55,13 @@ const GenerateDialog = ({handleGenerate}) => {
             <AppSelect options={resolutions} selectedOption={resolution} setValue={setResolution} label={"Resolution"}/>
           </div>
           <div className='generateSelectContainer'>
-            {format.value === "GIF" ? 
+            {format.value === "gif" ? 
             <AppSelect options={GIFQualities} selectedOption={gifQuality} setValue={setGifQuality} label={"Quality"} type={'array'}/>:
             <AppSelect options={videoQualities} selectedOption={videoQuality} setValue={setVideoQuality} label={"Quality"}/>
             }
           </div>
           <div className='generateSelectContainer'>
-            {format.value === "GIF" &&  <AppSelect options={fpsOptions} selectedOption={fps} setValue={setFps} label={"FPS"} type='array'/>}
+            {format.value === "gif" &&  <AppSelect options={fpsOptions} selectedOption={fps} setValue={setFps} label={"FPS"} type={'array'}/>}
           </div>
         </div>
         <button className='generateDialogButton' onClick={() => handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,fps})}>GENERATE</button>

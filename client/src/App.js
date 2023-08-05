@@ -4,10 +4,10 @@ function handleGenerate(params) {
   const {text,resolution, videoQuality,gifQuality,format,media1,fps} = params;
   const apiUrl = '/video';
   const requestBody = {
-    params: {Text1: text, Media1: media1},
+    data: {Text1: text, Media1: media1},
     resolutionHeight: resolution.value,
-    quality: format === 'GIF' ? gifQuality : videoQuality,
-    outpuyFormat: format,
+    quality: format.value === 'gif' ? gifQuality : videoQuality.value,
+    format: format.value,
     fps
   };
 

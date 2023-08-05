@@ -6,7 +6,8 @@ function RGBSelect ({color, setColor, setIsMedia1Color}){
   const [open, setOpen] = useState(false);
 
   const handleColorChange = (newColor) => {
-    setColor(newColor.hex);
+    const rgb = newColor.rgb;
+    setColor(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
     setIsMedia1Color(true);
   };
 
