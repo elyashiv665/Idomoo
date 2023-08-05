@@ -1,5 +1,5 @@
 import express from 'express';
-import {generateVideo} from './utils/IdomooWrapper.js'
+import {generateVideo, callIdomoo} from './utils/IdomooWrapper.js'
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -18,8 +18,25 @@ app.post('/video', async (req, res) => {
 
     res.status(202).json(resData);
   } catch (err) {
+    console.error(err.message);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+
+app.get('/videoStatus', async (req, res) => {
+  try {
+    const url = req.query.url;
+
+    const updateData = await callIdomoo(url, undefined, 'get');
+    console.log(updateData);
+    const status = updateData.data.status;
+    res.status(200).json(status);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  
 });
 
 app.listen(port, () => {

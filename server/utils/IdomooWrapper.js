@@ -87,32 +87,34 @@ const generateBody = (params) =>{
 export async function generateVideo(params) {
     try {
         const body = generateBody(params);
-        console.log('body', JSON.stringify(body));
-        const response = await callIdomoo('storyboards/generate', body, 'post');
-        const {output, check_status_url} = response.data
+        const response = callIdomoo(`${process.env.IDOMOOURL}/storyboards/generate`, body, 'post');
         return response.data;
     } catch (error) {
         throw new Error(`Error generateVideo: ${error.message}`);
+        
     }
 
 }
 
 
-async function callIdomoo( url, body={}, method){
+export async function callIdomoo( url, body, method){
     try{
+        
         const token = await getToken();
         const headers = {
             'Authorization': `Bearer ${token}`
         };
         const options = {
             method: method,
-            url: `${process.env.IDOMOOURL}/${url}`,
-            headers,
-            data: body
+            url,
+            headers
           };
+        if(body){
+            options.data = body;
+        }
         const response = await axios(options);
         return response;
     }catch(err){
-        console.error('error call Idomoo', err.message);
+        throw new Error(`error call Idomoo: ${error.message}`);
     }
 }
