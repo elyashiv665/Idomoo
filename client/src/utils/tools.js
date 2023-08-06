@@ -1,5 +1,5 @@
 
-async function updateStatus({url, setAvailableStatus, availableStatus, setIsError,setError, setIsLoading}) {
+async function updateStatus({url, availableStatus, setIsError,setError, setIsLoading,  setIsSuccess}) {
   if(availableStatus){
     return;
   }
@@ -27,7 +27,7 @@ async function updateStatus({url, setAvailableStatus, availableStatus, setIsErro
                 status = true;
                 break;
             case'VIDEO_AVAILABLE':
-                setAvailableStatus(jsonRes);
+                setIsSuccess(true);
                 status = true;
                 break;
             case'IN_PROCESS':
@@ -35,19 +35,17 @@ async function updateStatus({url, setAvailableStatus, availableStatus, setIsErro
             case "RENDERING":
             default:
               await new Promise(resolve => setTimeout(resolve, 3000));
-              await updateStatus({url, setAvailableStatus, availableStatus:status, setIsError,setError, setIsLoading}) 
+              await updateStatus({url, availableStatus:status, setIsError,setError, setIsLoading}) 
               break;
         
         }
     }catch(error){
       status = true;
-      setAvailableStatus('ERROR');
       setIsError(true);
       setError(error);
       setIsLoading(false);
   }
   if(count > parseInt(process.env.REACT_APP_MAX_UPDATE_STATUS_TRIES)){
-    setAvailableStatus('ERROR');
     setIsError(true);
     setError('to many retries update video status');
     setIsLoading(false);
@@ -56,30 +54,6 @@ async function updateStatus({url, setAvailableStatus, availableStatus, setIsErro
   count ++;
 }
 
-}
-
-async function fetchVideo({url, setVideo, setIsSuccess, setIsLoading, setIsError,setError}) {
-  fetch(`videoContent?url=${url}`, {
-      method: 'GET',
-      headers: {
-      'Content-Type': 'application/json',
-      }
-  }).then((response) => {
-    if(response.status !== 200){
-      throw new Error(response.statusText);
-    }
-    return response.json()
-  })
-      .then((data) => {
-          setVideo(data);
-          setIsSuccess(true);
-          setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsError(true);
-        setError(error.message);
-        setIsLoading(false);
-      });
 }
 
 function handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,fps, setIsLoading, setIsError, setError, setGenerateRes}) {
@@ -113,14 +87,6 @@ function handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,
       });
   }
 
-    const onBack = ({setError, setIsError, setIsLoading, setIsSuccess}) => {
-        setError('');
-        setIsError(false);
-        setIsSuccess(false);
-        setIsLoading(false);
-    };
 
-   
-
-export {onBack, handleGenerate, fetchVideo, updateStatus};
+export {handleGenerate, updateStatus};
   

@@ -15,34 +15,20 @@ app.post('/video', async (req, res) => {
   }
   try {
     const resData = await generateVideo(req.body);
-    console.log('resData', resData)
     res.status(202).json(resData);
   } catch (err) {
-    console.error(err.message);
+    console.error('error genrerate video', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-let count = 0;
 app.get('/videoStatus', async (req, res) => {
   try {
     const url = req.query.url;
     const updateData = await callIdomoo(url, undefined, 'get');
     const status = updateData.data.status;
-    res.status(200).json(status);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-  
-});
 
-app.get('/videoContent', async (req, res) => {
-  try {
-    const url = req.query.url;
-    const videoContent = await callIdomoo(url, undefined, 'get');
-    const video = videoContent.data;
-    res.status(200).json(video);
+    res.status(200).json(status);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal server error' });

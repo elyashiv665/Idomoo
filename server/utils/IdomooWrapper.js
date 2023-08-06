@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { text } from 'express';
 let tokenData;
 
 function calculateDateForXTimeFromNow(msecondsFromNow) {
@@ -86,7 +85,7 @@ export async function generateVideo(params) {
         const response = await callIdomoo(`${process.env.IDOMOOURL}/storyboards/generate`, body, 'post');
         return response.data;
     } catch (error) {
-        throw new Error(`Error generateVideo: ${error.message}`);
+        throw new Error(`Error generateVideo`);
         
     }
 

@@ -11,7 +11,7 @@ async function fileCompress(imageFile) {
     const compressedFile = await imageCompression(imageFile, options);
     return compressedFile;
   } catch (error) {
-    console.log(error);
+    console.log('error upload data: ', error);
   }
 
 }
