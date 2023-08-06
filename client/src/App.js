@@ -29,7 +29,7 @@ function App() {
   }
   const content = useMemo(() => {
     return <div>
-       {isLoading && Object.keys(generateRes).length && !isSuccess && <Loader isAvailableurl={generateRes.check_status_url} setIsError={setIsError} setError={setError} setIsLoading={setIsLoading} setIsSuccess={setIsSuccess}/>}
+       {isLoading && Object.keys(generateRes).length > 0 && !isSuccess && <Loader isAvailableurl={generateRes.check_status_url} setIsError={setIsError} setError={setError} setIsLoading={setIsLoading} setIsSuccess={setIsSuccess}/>}
       {isError && <ErrorComponent error={error}/>}
       {isSuccess && <Player format={format} videoUrl={videoUrl} onBack={onBack}/>}
       {!isLoading && !isError && !isSuccess && <GenerateDialog setParantFormat={setFormat} handleGenerate={(data) => {handleGenerateClick(data)}}/>}
