@@ -15,6 +15,7 @@ app.post('/video', async (req, res) => {
   }
   try {
     const resData = await generateVideo(req.body);
+    console.log('resData', resData)
     res.status(202).json(resData);
   } catch (err) {
     console.error(err.message);
@@ -22,11 +23,10 @@ app.post('/video', async (req, res) => {
   }
 });
 
-
+let count = 0;
 app.get('/videoStatus', async (req, res) => {
   try {
     const url = req.query.url;
-    console.log('url', url);
     const updateData = await callIdomoo(url, undefined, 'get');
     const status = updateData.data.status;
     res.status(200).json(status);

@@ -14,10 +14,13 @@ function App() {
   const [video, setVideo] = useState(false);
   const [format, setFormat] = useState();
   const [generateRes, setGenerateRes] = useState({});
-  const videoUrl = generateRes?.output?.[format === 'GIF' ? 'gif':'video'][0].links.url;
+  const videoUrl = generateRes?.output?.[format === 'gif' ? 'gif':'video'][0].links.url;
   const handleGenerateClick = (data) => {
     handleGenerate({...data,setIsError,setError, setIsLoading, setIsSuccess, setGenerateRes})
   }
+
+  console.log('generateRes', generateRes);
+  
   const content = useMemo(() => {
     return <div>
        {isLoading && Object.keys(generateRes).length && Object.keys(generateRes) && <Loader isAvailableurl={generateRes.check_status_url} videoUrl={videoUrl} setVideo={setVideo} video={video} setIsError={setIsError} setError={setError} setIsLoading={setIsLoading} setIsSuccess={setIsSuccess}/>}
@@ -26,7 +29,6 @@ function App() {
       {!isLoading && !isError && !isSuccess && <GenerateDialog setParantFormat={setFormat} handleGenerate={(data) => {handleGenerateClick(data)}}/>}
     </div>
   }, [isError, isLoading, isSuccess, generateRes])
-
   return (
     <div className="App">
       <header className="App-header">

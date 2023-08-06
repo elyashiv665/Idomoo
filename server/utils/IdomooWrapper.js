@@ -12,10 +12,8 @@ function calculateDateForXTimeFromNow(msecondsFromNow) {
 
 export async function getToken() {
     if (tokenData && tokenData.expires_at < new Date().getTime()){
-        console.log('exist valid token')
         return tokenData.access_token;
     }else{
-        console.log('call get token');
         const authHeader = `Basic ${btoa(`${process.env.ACCOUNT_ID}:${process.env.SECRET_KEY}`)}`;
     
         try {
@@ -31,7 +29,6 @@ export async function getToken() {
             const data = response.data;
             tokenData=data;
             tokenData.expires_at = calculateDateForXTimeFromNow(data.expires_in)
-            console.log('successfully get token');
             return data.access_token;
         } catch (error) {
             throw new Error(`Error fetching token: ${error.message}`);
@@ -70,8 +67,7 @@ const generateBody = (params) =>{
             }
         ]
     }
-
-    const output = filterJsonKeys(outputObj, format==='GIF' ? 'gif':'video');
+    const output = filterJsonKeys(outputObj, format==='gif' ? 'gif':'video');
     const reqData = Object.entries(data).map((entry, index) => {
         const [key, val] = entry; 
         return  {key,val};

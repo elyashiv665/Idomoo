@@ -28,7 +28,6 @@ async function updateStatus({url, setAvailableStatus, availableStatus, setIsErro
                 status = true;
                 break;
             case'VIDEO_AVAILABLE':
-                console.log('case VIDEO_AVAILABLE');
                 setAvailableStatus(jsonRes);
                 status = true;
                 break;
@@ -105,7 +104,6 @@ function handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,
         setGenerateRes(data);
       })
       .catch((error) => {
-        console.log('catch');
         setIsError(true);
         setError(error?.message);
         setIsLoading(false);
