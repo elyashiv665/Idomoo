@@ -5,7 +5,6 @@ async function updateStatus({url, setAvailableStatus, availableStatus, setIsErro
   }
   let status = false;
   let count = 0;
-
   while(!status){
     try{
       
@@ -47,7 +46,11 @@ async function updateStatus({url, setAvailableStatus, availableStatus, setIsErro
       setError(error);
       setIsLoading(false);
   }
-  if(count > 50){
+  if(count > parseInt(process.env.REACT_APP_MAX_UPDATE_STATUS_TRIES)){
+    setAvailableStatus('ERROR');
+    setIsError(true);
+    setError('to many retries update video status');
+    setIsLoading(false);
     break;
   }
   count ++;
