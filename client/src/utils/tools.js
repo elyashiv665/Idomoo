@@ -1,68 +1,84 @@
 
-async function updateStatus({url, setIsAvailable}) {
-    if(!url){
-        return;
-    }
-    await fetch(`videoStatus?url=${url}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsAvailable(data);
-      })
-      .catch((error) => {
-        setIsAvailable('ERROR');
-        throw new Error(error);
-      });
+async function updateStatus({url, setAvailableStatus, availableStatus, setIsError,setError, setIsLoading}) {
+  if(availableStatus){
+    return;
   }
+  let status = false;
+  let count = 0;
 
-async function fetchVideo({url, setVideo, setIsSuccess, setIsLoading}) {
-    fetch(`videoContent?url=${url}`, {
+  while(!status){
+    try{
+      
+      const res = await fetch(`videoStatus?url=${url}`, {
         method: 'GET',
         headers: {
-        'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         }
-    }).then((response) => response.json())
-        .then((data) => {
-            setVideo(data);
-            setIsSuccess(true);
-            setIsLoading(false);
-        })
-        .catch((error) => {
-            throw new Error(error);
-        });
-}
-
-async function checkIsAvailabelContent({url, setIsAvailable, setIsError,setError, setIsLoading}){
-    try{
-        const statusRes = await updateStatus({url, setIsAvailable});
-        switch(statusRes){
+      });
+      if(res.status !== 200){
+        throw new Error(res.statusText);
+      }
+      const jsonRes = await res.json();
+      switch(jsonRes){
             case'ERROR':
             case'NOT_EXIST':
                 setIsError(true);
                 setError('not exist')
                 setIsLoading(false);
+                status = true;
                 break;
             case'VIDEO_AVAILABLE':
-                setIsAvailable(true);
+                console.log('case VIDEO_AVAILABLE');
+                setAvailableStatus(jsonRes);
+                status = true;
                 break;
             case'IN_PROCESS':
             case "IN_QUEUE":
             case "RENDERING":
             default:
-                break;
+              await new Promise(resolve => setTimeout(resolve, 3000));
+              await updateStatus({url, setAvailableStatus, availableStatus:status, setIsError,setError, setIsLoading}) 
+              break;
         
         }
     }catch(error){
-        setIsError(true);
-        setError(error);
-        setIsLoading(false);
-    }
+      status = true;
+      setAvailableStatus('ERROR');
+      setIsError(true);
+      setError(error);
+      setIsLoading(false);
+  }
+  if(count > 50){
+    break;
+  }
+  count ++;
 }
 
+}
+
+async function fetchVideo({url, setVideo, setIsSuccess, setIsLoading, setIsError,setError}) {
+  fetch(`videoContent?url=${url}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'application/json',
+      }
+  }).then((response) => {
+    if(response.status !== 200){
+      throw new Error(response.statusText);
+    }
+    return response.json()
+  })
+      .then((data) => {
+          setVideo(data);
+          setIsSuccess(true);
+          setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        setError(error.message);
+        setIsLoading(false);
+      });
+}
 
 function handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,fps, setIsLoading, setIsError, setError, setGenerateRes}) {
     const apiUrl = '/video';
@@ -105,5 +121,5 @@ function handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,
 
    
 
-export {onBack, handleGenerate, fetchVideo, checkIsAvailabelContent};
+export {onBack, handleGenerate, fetchVideo, updateStatus};
   

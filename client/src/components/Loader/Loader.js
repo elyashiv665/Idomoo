@@ -1,25 +1,26 @@
-import  {checkIsAvailabelContent, fetchVideo} from '../../utils/tools'
+import  {updateStatus, fetchVideo} from '../../utils/tools'
 import {useEffect, useState} from 'react';
 
 export default function Loader({isAvailableurl,videoUrl,video, setVideo, setIsError,setError, setIsLoading, setIsSuccess}){
-    const [isAvailable, setIsAvailable] = useState(false);
-   
+    const [availableStatus, setAvailableStatus] = useState(false);
+
     useEffect(() => {
-        if(isAvailable === 'VIDEO_AVAILABLE'){
+        updateStatus({url: isAvailableurl, setAvailableStatus, setIsError,setError, setIsLoading, setIsSuccess});   
+      }, []);
+    
+    useEffect(() => {
+        if(availableStatus === 'VIDEO_AVAILABLE'){
             try{
-                fetchVideo({url: videoUrl, setVideo, setIsLoading, setIsSuccess})
+                fetchVideo({url: videoUrl, setVideo, setIsLoading, setIsSuccess,  setIsError,setError})
             }catch(error){
                 setIsLoading(false);
                 setIsError(true);
-                setError(error.message);
+                setError(error);
             }
+        }else{
+
         }
-    }, [isAvailable]);
-    
-    if(!isAvailable || isAvailable === 'IN_PROCESS' || isAvailable === 'IS_QUEUE' || isAvailable === "READING"){
-        checkIsAvailabelContent({url: isAvailableurl, setIsAvailable, setIsError,setError, setIsLoading, setIsSuccess});
-    }
-   
+    }, [availableStatus]);
    
     return <div>loading</div>;
 }
