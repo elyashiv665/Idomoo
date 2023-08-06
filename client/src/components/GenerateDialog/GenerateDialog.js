@@ -7,7 +7,7 @@ import AppSelect from './AppSelect/AppSelect';
 
 const formats = [{label: "HLS", value:"hls"}, {label: "MP4", value: "mp4"}, {label: "GIF",value:'gif'}];
 const videoQualities = [{value: 23, label:'BEST'}, {value:26 ,label: 'BETTER'},{value: 29, label: 'GOOD'}];
-const GIFQualities = ['16', '31','64','128','256',]
+const GIFQualities = ['256', '128','64','32','16']
 const fpsOptions = Array.from({length: 30}, (_, i) => i + 1)
 const resolutions = [{
   value: '1080',
@@ -35,7 +35,7 @@ const GenerateDialog = ({handleGenerate, setParantFormat}) => {
   const [format, setFormat] = useState(formats[0]);
   const [media1, setMedia1] = useState('rgb(0, 0, 0)');
   const[isMedia1Color, setIsMedia1Color] = useState(true);
-  const [fps, setFps] = useState(fpsOptions[15]);
+  const [fps, setFps] = useState(fpsOptions[14]);
   const titleText = 'Enter the details below in order to generate your video';
 
   return (

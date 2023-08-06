@@ -80,10 +80,16 @@ function handleGenerate({text,resolution, videoQuality,gifQuality,format,media1,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
-    }).then((response) => response.json()).then((data) => {
+    }).then((response) => {
+      if(response.status !== 202){
+        throw new Error(response.statusText);        
+      }
+      return response.json()
+    }).then((data) => {
         setGenerateRes(data);
       })
       .catch((error) => {
+        console.log('catch');
         setIsError(true);
         setError(error?.message);
         setIsLoading(false);

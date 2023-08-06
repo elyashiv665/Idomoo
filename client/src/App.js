@@ -18,6 +18,7 @@ function App() {
   const handleGenerateClick = (data) => {
     handleGenerate({...data,setIsError,setError, setIsLoading, setIsSuccess, setGenerateRes})
   }
+
   const content = useMemo(() => {
     return <div>
        {isLoading && Object.keys(generateRes) && <Loader isAvailableurl={generateRes.check_status_url} videoUrl={videoUrl} setVideo={setVideo} video={video} setIsError={setIsError} setError={setError} setIsLoading={setIsLoading} setIsSuccess={setIsSuccess}/>}
