@@ -34,7 +34,7 @@ async function updateStatus({url, availableStatus, setIsError,setError, setIsLoa
             case "IN_QUEUE":
             case "RENDERING":
             default:
-              await new Promise(resolve => setTimeout(resolve, 3000));
+              await new Promise(resolve => setTimeout(resolve, parseInt(process.env.REACT_APP_LOADER_TIMEOUT)));
               await updateStatus({url, availableStatus:status, setIsError,setError, setIsLoading}) 
               break;
         

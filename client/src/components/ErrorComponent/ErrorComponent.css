@@ -1,0 +1,11 @@
+.backContainer{
+    cursor: pointer;
+    display: flex;
+    margin-left: 20%;
+    margin-bottom: 50px;
+}
+
+.backText{
+    font-size: 24px;
+    margin-left: 5px;
+}
