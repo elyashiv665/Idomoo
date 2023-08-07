@@ -85,6 +85,7 @@ export async function generateVideo(params) {
         const response = await callIdomoo(`${process.env.IDOMOOURL}/storyboards/generate`, body, 'post');
         return response.data;
     } catch (error) {
+        console.log(error);
         throw new Error(`Error generateVideo`);
         
     }
