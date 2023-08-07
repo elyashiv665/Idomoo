@@ -17,7 +17,6 @@ app.post('/video', async (req, res) => {
     const resData = await generateVideo(req.body);
     res.status(202).json(resData);
   } catch (err) {
-    console.error('error genrerate video', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -27,7 +26,6 @@ app.get('/videoStatus', async (req, res) => {
     const url = req.query.url;
     const updateData = await callIdomoo(url, undefined, 'get');
     const status = updateData.data.status;
-
     res.status(200).json(status);
   } catch (err) {
     console.error(err.message);
